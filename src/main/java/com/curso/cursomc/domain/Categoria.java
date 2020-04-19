@@ -10,6 +10,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+
 @Entity
 public class Categoria implements Serializable{
 
@@ -19,9 +23,12 @@ public class Categoria implements Serializable{
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	private String  nome;
-	@ManyToMany(mappedBy="categorias")
-	private List<Produto> produtos = new ArrayList<>();
 	
+	
+	@ManyToMany(mappedBy="categorias")
+	@JsonManagedReference
+	private List<Produto> produtos = new ArrayList<>();
+
 	public Categoria() {
 		
 	}
@@ -74,6 +81,9 @@ public class Categoria implements Serializable{
 		this.nome = nome;
 	}
 
+	// era isto um dos problemas que esta apresentando problemas na serialização,
+	//ele chamava o getter e refazia a referencia sem parar
+	@JsonIgnore
 	public List<Produto> getProduto() {
 		return produtos;
 	}

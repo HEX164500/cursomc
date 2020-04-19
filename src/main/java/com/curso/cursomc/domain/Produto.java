@@ -12,11 +12,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Produto implements Serializable {
 
-	
-	private static final long serialVersionUID = 2L;
+	private static final long serialVersionUID = 1L;
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -24,12 +26,14 @@ public class Produto implements Serializable {
 	private String  nome;
 	private float   preco;
 	
+	
+	
 	@ManyToMany
-	@JoinTable(
-		name = "PRODUTO_CATEGORIA",
-		joinColumns = @JoinColumn(name="produto_id"),
-		inverseJoinColumns = @JoinColumn(name="categoria_id")
-	)
+	 @JoinTable(name = "PRODUTO_CATEGORIA",
+	 joinColumns = @JoinColumn(name = "produto_id"),
+	 inverseJoinColumns = @JoinColumn(name = "categoria_id")
+	 )
+	@JsonBackReference
 	private List<Categoria> categorias = new ArrayList<>();
 	
 	public Produto () {
@@ -67,6 +71,9 @@ public class Produto implements Serializable {
 		this.preco = preco;
 	}
 
+	// era isto um dos problemas que esta apresentando problemas na serialização,
+	//ele chamava o getter e refazia a referencia sem parar
+	@JsonIgnore
 	public List<Categoria> getCategoria() {
 		return categorias;
 	}
