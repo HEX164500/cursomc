@@ -48,6 +48,23 @@ public class Categoria implements Serializable{
 		this.id = id;
 	}
 
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	@JsonIgnore
+	public List<Produto> getProduto() {
+		return produtos;
+	}
+
+	public void setProduto(List<Produto> produto) {
+		this.produtos = produto;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -72,27 +89,6 @@ public class Categoria implements Serializable{
 			return false;
 		return true;
 	}
-
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
-	// era isto um dos problemas que esta apresentando problemas na serialização,
-	//ele chamava o getter e refazia a referencia sem parar
-	@JsonIgnore
-	public List<Produto> getProduto() {
-		return produtos;
-	}
-
-	public void setProduto(List<Produto> produto) {
-		this.produtos = produto;
-	}
-
-	
 	
 	
 }
