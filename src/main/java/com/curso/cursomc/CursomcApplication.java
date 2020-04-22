@@ -13,6 +13,7 @@ import com.curso.cursomc.domain.Cidade;
 import com.curso.cursomc.domain.Cliente;
 import com.curso.cursomc.domain.Endereco;
 import com.curso.cursomc.domain.Estado;
+import com.curso.cursomc.domain.ItemPedido;
 import com.curso.cursomc.domain.Pagamento;
 import com.curso.cursomc.domain.PagamentoComBoleto;
 import com.curso.cursomc.domain.PagamentoComCartao;
@@ -25,6 +26,7 @@ import com.curso.cursomc.repositories.CidadeRepository;
 import com.curso.cursomc.repositories.ClienteRepository;
 import com.curso.cursomc.repositories.EnderecoRepository;
 import com.curso.cursomc.repositories.EstadoRepository;
+import com.curso.cursomc.repositories.ItemPedidoRepository;
 import com.curso.cursomc.repositories.PagamentoRepository;
 import com.curso.cursomc.repositories.PedidoRepository;
 import com.curso.cursomc.repositories.ProdutoRepository;
@@ -55,6 +57,9 @@ public class CursomcApplication implements CommandLineRunner {
 	
 	@Autowired
 	private PagamentoRepository pagamentoRepo;
+	
+	@Autowired
+	private ItemPedidoRepository itemPedidorepo;
 	
 	
 	public static void main(String[] args) {
@@ -123,5 +128,18 @@ public class CursomcApplication implements CommandLineRunner {
 		
 		pedidoRepo.saveAll(Arrays.asList(ped1,ped2));
 		pagamentoRepo.saveAll(Arrays.asList(pgto1,pgto2));
+		
+		ItemPedido ip1 = new ItemPedido(ped1, p1, 0, 1, 2000);
+		ItemPedido ip2 = new ItemPedido(ped1, p3, 0, 2, 80);
+		ItemPedido ip3 = new ItemPedido(ped2, p2, 100, 1, 800);
+		
+		ped1.getItens().addAll(Arrays.asList(ip1,ip2));
+		ped2.getItens().addAll(Arrays.asList(ip3));
+		
+		p1.getItens().addAll(Arrays.asList(ip1));
+		p2.getItens().addAll(Arrays.asList(ip3));
+		p3.getItens().addAll(Arrays.asList(ip2));
+		
+		itemPedidorepo.saveAll(Arrays.asList(ip1,ip2,ip3));
 	}
 }
